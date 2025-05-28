@@ -1,0 +1,28 @@
+{
+  "frontend": {
+    "provider": "vercel",
+    "projectName": "the-music-besties",
+    "framework": "nuxtjs",
+    "rootDirectory": "./",
+    "buildCommand": "npm run build",
+    "outputDirectory": ".output/public",
+    "environmentVariables": [
+      "VUE_APP_FASTAPI_URL",
+      "VUE_APP_SUPABASE_URL",
+      "VUE_APP_SUPABASE_KEY"
+    ]
+  },
+  "backend": {
+    "provider": "railway",
+    "projectName": "the-music-besties-api",
+    "rootDirectory": "./backend",
+    "buildCommand": "pip install -r requirements.txt",
+    "startCommand": "uvicorn main:app --host 0.0.0.0 --port $PORT",
+    "environmentVariables": [
+      "SUPABASE_URL",
+      "SUPABASE_KEY",
+      "OPENAI_API_KEY",
+      "FRONTEND_URL"
+    ]
+  }
+}

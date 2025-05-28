@@ -1,0 +1,9 @@
+fastapi>=0.104.0
+uvicorn[standard]>=0.23.2
+python-dotenv>=1.0.0
+pydantic>=2.4.2
+# crewai and openai are commented out for initial testing
+# crewai==0.28.0
+# openai==1.1.1
+# supabase is commented out for initial testing
+# supabase==1.0.3

@@ -1,0 +1,17 @@
+# Master environment variables template
+# Copy this file to .env.master and fill in your actual credentials
+
+# Supabase
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_KEY=your-supabase-key
+
+# OpenAI
+OPENAI_API_KEY=your-openai-key
+
+# URLs
+BACKEND_URL=http://localhost:8000
+FRONTEND_URL=http://localhost:3000
+
+# Production URLs (uncomment and update when deploying)
+# BACKEND_URL=https://your-railway-app.railway.app
+# FRONTEND_URL=https://your-vercel-app.vercel.app
