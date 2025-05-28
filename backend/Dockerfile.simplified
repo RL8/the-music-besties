@@ -1,0 +1,18 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install only the essential packages
+RUN pip install --no-cache-dir fastapi uvicorn
+
+# Copy only the simplified backend file
+COPY main_simplified.py .
+
+# Set environment variable to indicate we're in a simplified test mode
+ENV APP_MODE=simplified
+
+# Expose the port
+EXPOSE 8000
+
+# Run the simplified app
+CMD ["python", "-m", "uvicorn", "main_simplified:app", "--host", "0.0.0.0", "--port", "8000"]

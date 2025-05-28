@@ -59,26 +59,7 @@ async def root():
 async def health_check():
     """Health check endpoint"""
     logger.info("Health check endpoint called")
-    return {"status": "healthy", "version": "0.1.0", "environment": "production"}
-
-@app.on_event("startup")
-async def startup_event():
-    """Log important information on startup"""
-    import os
-    import sys
-    
-    logger.info(f"Python version: {sys.version}")
-    logger.info(f"Current working directory: {os.getcwd()}")
-    logger.info(f"Directory contents: {os.listdir('.')}")
-    
-    # Log environment variables (excluding sensitive ones)
-    env_vars = {k: v for k, v in os.environ.items() if not any(secret in k.lower() for secret in ['key', 'password', 'secret', 'token'])}
-    logger.info(f"Environment variables: {env_vars}")
-    
-    # Log the PORT specifically
-    logger.info(f"PORT environment variable: {os.environ.get('PORT', 'Not set')}")
-    
-    logger.info("Application startup complete")
+    return {"status": "healthy", "version": "0.1.0"}
 
 @app.post("/api/chat")
 async def chat(chat_message: ChatMessage):
