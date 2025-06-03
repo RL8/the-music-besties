@@ -181,7 +181,7 @@ def _generate_test_response(message: str, user_profile: Optional[Dict[str, Any]]
     
     # Handle special start_conversation trigger
     if message == "start_conversation":
-        response = "👋 Hi there! I'm your AI concierge for Music Besties. I'm here to help you curate your music obsession and find your music tribe. What would you like to do today?"
+        response = "👋 Hi there! I'm your AI concierge for Music Besties, powered by OpenAI. I'm here to help you curate your music obsession and find your music tribe. What would you like to do today?"
         suggested_actions = [
             {"id": "start_curation", "label": "Curate Music", "action": "TRIGGER_MODULE", "module": "music_curation"},
             {"id": "view_profile", "label": "View Profile", "action": "SHOW_SIDEBOARD", "content_type": "music_curation"}
@@ -192,7 +192,7 @@ def _generate_test_response(message: str, user_profile: Optional[Dict[str, Any]]
         )
     
     # Default response
-    response = "I'm your AI concierge for music curation. How can I help you today?"
+    response = "I'm your AI concierge for music curation, powered by OpenAI. How can I help you today?"
     suggested_actions = []
     context_modules = []
     sideboard_content = None

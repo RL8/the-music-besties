@@ -90,11 +90,8 @@
             <label for="backend-url">Backend URL:</label>
             <input type="text" id="backend-url" value="https://mb-api-service-production.up.railway.app/api" style="width: 100%;">
         </div>
-        <div class="config-item">
-            <label for="auth-token">Auth Token (Test Token):</label>
-            <input type="text" id="auth-token" value="test-token-for-development-only" style="width: 100%;">
-        </div>
         <button id="update-config">Update Configuration</button>
+        <div class="status-info">Authentication is no longer required!</div>
     </div>
     
     <div class="chat-container" id="chat-container"></div>
@@ -109,7 +106,6 @@
     <script>
         // Configuration
         let backendUrl = document.getElementById('backend-url').value;
-        let authToken = document.getElementById('auth-token').value;
         
         // DOM Elements
         const chatContainer = document.getElementById('chat-container');
@@ -121,7 +117,6 @@
         // Update configuration
         updateConfigButton.addEventListener('click', () => {
             backendUrl = document.getElementById('backend-url').value;
-            authToken = document.getElementById('auth-token').value;
             setStatus('Configuration updated');
         });
         
@@ -149,8 +144,7 @@
                 const response = await fetch(`${backendUrl}/chat`, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${authToken}`
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({ message })
                 });

@@ -64,7 +64,7 @@ onMounted(async () => {
       addMessage(response.message, 'ai');
     } else {
       // Fallback message if API call fails
-      addMessage('Welcome to Music Besties! I\'m your AI concierge. How can I help you today?', 'ai');
+      addMessage('Welcome to Music Besties! I\'m your AI concierge powered by OpenAI. How can I help you today?', 'ai');
     }
   } catch (error) {
     console.error('Error initializing chat:', error);
