@@ -39,47 +39,25 @@ class AuthResponse(BaseModel):
     user: Optional[UserProfile] = None
     message: Optional[str] = None
 
-async def get_current_user(credentials: Annotated[HTTPAuthorizationCredentials, Depends(security)]) -> User:
+async def get_current_user(credentials: Annotated[Optional[HTTPAuthorizationCredentials], Depends(security)] = None) -> User:
     """
-    Dependency to get the current authenticated user
+    Dependency to get a default user (no authentication required)
     
     Args:
-        credentials: JWT token from the Authorization header
+        credentials: Optional JWT token from the Authorization header (not used)
         
     Returns:
-        User: The authenticated user
-        
-    Raises:
-        HTTPException: If the token is invalid
+        User: A default user
     """
-    # Check if we're in test mode and using the test token
-    if TEST_MODE and credentials.credentials == TEST_TOKEN:
-        # Return the test user without verifying the JWT
-        test_user = get_test_user()
-        return User(
-            id=test_user.id,
-            email=test_user.email,
-            app_metadata=test_user.app_metadata,
-            user_metadata=test_user.user_metadata,
-            created_at=test_user.created_at
-        )
-    
-    # Normal authentication flow
-    try:
-        user_data = verify_jwt(credentials.credentials)
-        return User(
-            id=user_data.id,
-            email=user_data.email,
-            app_metadata=user_data.app_metadata,
-            user_metadata=user_data.user_metadata,
-            created_at=user_data.created_at
-        )
-    except ValueError as e:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail=str(e),
-            headers={"WWW-Authenticate": "Bearer"}
-        )
+    # Return a default user without authentication
+    default_user = get_test_user()
+    return User(
+        id=default_user.id,
+        email=default_user.email,
+        app_metadata=default_user.app_metadata,
+        user_metadata=default_user.user_metadata,
+        created_at=default_user.created_at
+    )
 
 async def get_optional_user(credentials: Annotated[Optional[HTTPAuthorizationCredentials], Depends(security)]) -> Optional[User]:
     """

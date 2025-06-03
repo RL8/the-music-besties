@@ -41,7 +41,7 @@ class ChatResponse(BaseModel):
 @router.post("/", response_model=ChatResponse)
 async def process_chat_message(
     request: ChatRequest,
-    current_user: User = Depends(get_current_user)
+    current_user: Optional[User] = None
 ):
     """
     Process a chat message and return an AI response
@@ -92,7 +92,7 @@ async def process_chat_message(
 @router.post("/init", response_model=ChatResponse)
 async def initialize_chat(
     user_id: Optional[str] = None,
-    current_user: User = Depends(get_current_user)
+    current_user: Optional[User] = None
 ):
     """
     Initialize a new chat conversation
