@@ -36,9 +36,9 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      apiBaseUrl: process.env.VUE_APP_FASTAPI_URL || 'http://localhost:8000',
-      supabaseUrl: process.env.VUE_APP_SUPABASE_URL || '',
-      supabaseKey: process.env.VUE_APP_SUPABASE_KEY || ''
+      apiBaseUrl: process.env.NUXT_PUBLIC_API_BASE_URL || process.env.VUE_APP_FASTAPI_URL || 'http://localhost:8000',
+      supabaseUrl: process.env.NUXT_PUBLIC_SUPABASE_URL || process.env.VUE_APP_SUPABASE_URL || '',
+      supabaseKey: process.env.NUXT_PUBLIC_SUPABASE_KEY || process.env.VUE_APP_SUPABASE_KEY || ''
     }
   },
 

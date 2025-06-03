@@ -1,0 +1,548 @@
+You got it! Redoing the full set of ASCII wireframes from scratch, ensuring the user registration process is integrated naturally within the AI chat flow using the app's signature "in-chat" buttons, inputs, and Contextual Input Modules.
+
+This will cover the entire journey from a first-time user's perspective, through AI-guided onboarding, curation, link sharing, and ultimately to seeing their list of Bestie Scores.
+
+---
+
+### **Music Besties User Journey: Full Mobile PWA Wireframes**
+
+These ASCII wireframes illustrate the mobile-only (PWA) user experience, emphasizing the AI-first conversational UI, dynamic Sideboard, and "in-chat" interactions for all major steps, including user registration and the monetization gate for connections.
+
+**General UI Legend:**
+* `[ ]` = Button / Tappable Area
+* `< Back` = Back button
+* `🎤` = Mic input (Voice)
+* `▶️` = Send/Play button
+* `Sideboard <` / `Sideboard >` = Indicates Sideboard is collapsed/expanded, and swipe direction to open/close.
+* `(...)` = Placeholder for dynamic content or animation.
+* `[ SWIPE > ]` = Gesture hint.
+
+---
+
+#### **1. Initial Greeting & User Registration (AI-Guided)**
+
+**Screen 1.1: First Launch - AI Greeting**
+(User opens PWA for the very first time)
+```ascii
++-----------------------------------+-------------------+
+| < Back | Welcome to Besties!      |  Sideboard      < |
++-----------------------------------+-------------------+
+|  AI: Hey there! I'm your digital  |  (Collapsed)      |
+|      concierge for music & shows. |                   |
+|                                   |                   |
+|      Ready to explore your tastes |                   |
+|      and find your ultimate tribe?|                   |
+|                                   |                   |
+|      Let's get started!           |                   |
+|                                   |                   |
+|      (My text input is disabled   |                   |
+|      until you interact below)    |                   |
+|                                   |                   |
+|-----------------------------------|-------------------|
+|                                   |                   |
+|   [ Hi! I'm Ready! ]              |                   |
+|                                   |                   |
++-----------------------------------+-------------------+
+```
+* **Description:** The AI greets the user. A clear action button replaces the typical chat input, prompting the user to begin. The Sideboard is initially collapsed.
+
+**Screen 1.2: AI Prompts for Login/Signup**
+(User taps "Hi! I'm Ready!")
+```ascii
++-----------------------------------+-------------------+
+| < Back | Welcome to Besties!      |  Sideboard      < |
++-----------------------------------+-------------------+
+|  AI: Great! To keep your unique   |  (Collapsed)      |
+|      tastes safe and unlock all   |                   |
+|      features, let's get you set  |                   |
+|      up.                          |                   |
+|                                   |                   |
+|      Do you already have an       |                   |
+|      account, or are you new here?|                   |
+|                                   |                   |
+|-----------------------------------|-------------------|
+|   [ I'm New - Sign Me Up! ]       |                   |
+|   [ I Already Have an Account ]   |                   |
+|                                   |                   |
++-----------------------------------+-------------------+
+```
+* **Description:** The AI introduces the need for an account. It provides two in-chat buttons for signing up or logging in.
+
+**Screen 1.3: Sign Up Form (Contextual Input Module)**
+(User taps "I'm New - Sign Me Up!")
+```ascii
++-----------------------------------+-------------------+
+| < Back | Welcome to Besties!      |  Sideboard      < |
++-----------------------------------+-------------------+
+|  AI: Welcome! Just a few details  |  (Collapsed)      |
+|      to create your account.      |                   |
+|                                   |                   |
+|      (Please fill out the form    |                   |
+|      below to register)           |                   |
+|                                   |                   |
+|-----------------------------------|-------------------|
+|   +-----------------------------+                     |
+|   |  Your First Name:           |                     |
+|   |  [ Text Input: e.g., Alex ] |                     |
+|   |                             |                     |
+|   |  Your Email:                |                     |
+|   |  [ Text Input: e.g., alex@..] |                     |
+|   |                             |                     |
+|   |  Password:                  |                     |
+|   |  [ Text Input: ******** ]   |                     |
+|   |                             |                     |
+|   |  [ Create Account ] [ Back ]|                     |
+|   +-----------------------------+                     |
++-----------------------------------+-------------------+
+```
+* **Description:** A `Contextual Input Module` appears, presenting the standard sign-up fields (name, email, password) directly within the chat area. The chat input is temporarily hidden.
+
+**Screen 1.4: Login Form (Contextual Input Module)**
+(Alternative path: User taps "I Already Have an Account")
+```ascii
++-----------------------------------+-------------------+
+| < Back | Welcome Back!            |  Sideboard      < |
++-----------------------------------+-------------------+
+|  AI: Welcome back! Please log in  |  (Collapsed)      |
+|      to continue your journey.    |                   |
+|                                   |                   |
+|      (Fill out the form below)    |                   |
+|                                   |                   |
+|-----------------------------------|-------------------|
+|   +-----------------------------+                     |
+|   |  Your Email:                |                     |
+|   |  [ Text Input: e.g., alex@..] |                     |
+|   |                             |                     |
+|   |  Password:                  |                     |
+|   |  [ Text Input: ******** ]   |                     |
+|   |                             |                     |
+|   |  [ Log In ] [ Forgot Pwd? ] |                     |
+|   +-----------------------------+                     |
++-----------------------------------+-------------------+
+```
+* **Description:** A `Contextual Input Module` for login appears, providing email and password fields.
+
+**Screen 1.5: AI Acknowledges Login/Signup + Sideboard Welcome**
+(User successfully creates account or logs in)
+```ascii
++-----------------------------------+-------------------+
+| < Back | Alex's Besties           |  Sideboard      > |
++-----------------------------------+-------------------+
+|  AI: Fantastic, Alex! You're all  | +-----------------+ |
+|      set. It's a pleasure to      | | ✨ Welcome, Alex! ✨ | |
+|      have you with us.            | |                 | |
+|                                   | | This is your    | |
+|      I've added a little welcome  | | dynamic Sideboard.| |
+|      note to your Sideboard on    | | It'll show you  | |
+|      the right. Give it a swipe!  | | relevant info   | |
+|                                   | | & fun visuals.  | |
+|  [ SWIPE > ]                      | +-----------------+ |
+|                                   |                   |
+|-----------------------------------|-------------------|
+| [ Type message... ] [🎤] [▶️]       |                   |
++-----------------------------------+-------------------+
+```
+* **Description:** The AI confirms successful account creation/login. The Sideboard automatically expands to show a welcome message, prompting the user to notice it.
+
+---
+
+#### **2. Deep Curation of Their Obsession (Phase 1)**
+
+**Screen 2.1: AI Prompts for Obsession Selection**
+```ascii
++-----------------------------------+-------------------+
+| < Back | Alex's Besties           |  Sideboard      > |
++-----------------------------------+-------------------+
+|  AI: Now, let's talk about your   | +-----------------+ |
+|      ultimate obsession!          | |  My Curation    | |
+|                                   | |-----------------| |
+|      Who's that one artist or     | | (Empty/Minimal) | |
+|      show you could talk about    | |                 | |
+|      forever?                     | |                 | |
+|                                   | |                 | |
+|                                   | |                 | |
+|                                   | +-----------------+ |
+|                                   |                   |
+|-----------------------------------|-------------------|
+| [ Type message... ] [🎤] [▶️]       |                   |
++-----------------------------------+-------------------+
+```
+* **Description:** AI prompts the user to begin curation. The Sideboard shows an empty or minimal "My Curation" view.
+
+**Screen 2.2: Obsession Search/Select (Contextual Input Module)**
+(User types e.g., "Taylor Swift" and AI confirms)
+```ascii
++-----------------------------------+-------------------+
+| < Back | Alex's Besties           |  Sideboard      > |
++-----------------------------------+-------------------+
+|  AI: Taylor Swift, excellent      | +-----------------+ |
+|      choice, Alex!                | |  My Curation    | |
+|                                   | |-----------------| |
+|      To confirm, is this the      | | Artist:         | |
+|      Taylor Swift you mean?       | |  Taylor Swift   | |
+|                                   | | (Confirmed)     | |
+|-----------------------------------| +-----------------+ |
+|   +-----------------------------+                     |
+|   |  Confirm Artist:            |                     |
+|   |  [ Radio Btn: Taylor Swift ]|                     |
+|   |  [ Radio Btn: T. Swift (Old)]|                     |
+|   |                             |                     |
+|   |  [ Confirm ] [ Re-enter ]   |                     |
+|   +-----------------------------+                     |
++-----------------------------------+-------------------+
+```
+* **Description:** A CIM appears to confirm the specific artist/show. Sideboard begins to reflect the chosen obsession.
+
+**Screen 2.3: Curation Input for Top Albums (CIM Example)**
+(AI asks for top albums/songs)
+```ascii
++-----------------------------------+-------------------+
+| < Back | Alex's Besties           |  Sideboard      > |
++-----------------------------------+-------------------+
+|  AI: Perfect! Let's dive deep.    | +-----------------+ |
+|      What are your top 3 albums   | |  My Curation    | |
+|      by Taylor Swift?             | |-----------------| |
+|                                   | | Artist:         | |
+|      (Use the form below to add   | |  Taylor Swift   | |
+|      your #1 album.)              | |                 | |
+|                                   | | Albums:         | |
+|                                   | |  - (Empty Slot) | |
+|-----------------------------------| +-----------------+ |
+|   +-----------------------------+                     |
+|   |  #1 Album:                  |                     |
+|   |  [ Search/Select: Red (TV) ]|                     |
+|   |  Rating: [ ★★★★★ ]            |                     |
+|   |  Comment: [ Multi-line text...] |                     |
+|   |  Weighted Rank: [ --- 85% -- ]|                     |
+|   |  [ Add Album ] [ Skip ]     |                     |
+|   +-----------------------------+                     |
++-----------------------------------+-------------------+
+```
+* **Description:** A more complex CIM appears for structured input (search/select, rating, comment, slider). The Sideboard shows the emerging curation. This process repeats for subsequent items.
+
+**Screen 2.4: "My Curation" View (Sideboard - Populated)**
+(After curation is complete, AI summarizes)
+```ascii
++-----------------------------------+-------------------+
+| < Back | Alex's Besties           |  Sideboard      > |
++-----------------------------------+-------------------+
+|  AI: Amazing, Alex! Your Taylor   | +-----------------+ |
+|      Swift curation is now complete.| |  My Curation    | |
+|                                   | |-----------------| |
+|      Take a look at your full     | | Artist:         | |
+|      profile in the Sideboard.    | |  Taylor Swift   | |
+|                                   | |                 | |
+|                                   | | Albums:         | |
+|                                   | |  1. Red (TV)    | |
+|                                   | |   (5★, 85%)     | |
+|                                   | |  2. 1989 (TV)   | |
+|                                   | |   (4.5★, 75%)   | |
+|                                   | |  3. folklore    | |
+|                                   | |   (4★, 60%)     | |
+|                                   | |                 | |
+|                                   | | Songs:          | |
+|                                   | |  1. ATW (10m)   | |
+|                                   | |   (5★, 90%)     | |
+|                                   | |  ... (scroll)   | |
+|                                   | +-----------------+ |
+|-----------------------------------|-------------------|
+| [ Type message... ] [🎤] [▶️]       |                   |
++-----------------------------------+-------------------+
+```
+* **Description:** The Sideboard now displays the user's complete, detailed curation. This view is scrollable vertically.
+
+---
+
+#### **3. Sharing Profile Link (Phase 1)**
+
+**Screen 3.1: AI Prompts to Share Profile**
+```ascii
++-----------------------------------+-------------------+
+| < Back | Alex's Besties           |  Sideboard      > |
++-----------------------------------+-------------------+
+|  AI: Your unique profile is now   | +-----------------+ |
+|      ready! Share it with friends | |  My Curation    | |
+|      and let them discover how    | |-----------------| |
+|      your tastes align!           | |  (Visible)      | |
+|                                   | |                 | |
+|      Tap below to get your link.  | |                 | |
+|                                   | |                 | |
+|                                   | |                 | |
+|                                   | +-----------------+ |
+|                                   |                   |
+|-----------------------------------|-------------------|
+|   [ Get My Share Link! ]          |                   |
+|                                   |                   |
++-----------------------------------+-------------------+
+```
+* **Description:** The AI prompts the user to get their shareable profile link.
+
+**Screen 3.2: Share Link Options (Sideboard)**
+(User taps "Get My Share Link!")
+```ascii
++-----------------------------------+-------------------+
+| < Back | Alex's Besties           |  Sideboard      > |
++-----------------------------------+-------------------+
+|  AI: Here's your unique profile   | +-----------------+ |
+|      link!                        | |    Share My     | |
+|                                   | |    Profile!     | |
+|      Share this with friends and  | +-----------------+ |
+|      they can connect with you.   | |  Your Link:     | |
+|                                   | |  [ copy.besties.fm/alex123 ] | |
+|  [ Copy Link ] [ Share to... ]    | |                 | |
+|                                   | |  [ Copy Link ]  | |
+|                                   | |  [ Share to Apps ] | |
+|                                   | +-----------------+ |
+|-----------------------------------|-------------------|
+| [ Type message... ] [🎤] [▶️]       |                   |
++-----------------------------------+-------------------+
+```
+* **Description:** The Sideboard displays the shareable link and options to copy or share to other apps (using native share sheets). The AI's dialogue reinforces this.
+
+---
+
+#### **4. External Connection Initiation (Friend B Clicks Link)**
+
+**Screen 4.1: Friend B's View - Landing Page from Link**
+(Friend B clicks Alex's shared link. This is a specific, link-driven view, potentially for non-users or existing users.)
+```ascii
++-------------------------------------------------------+
+| < Back | Alex's Profile on Besties |  Menu             |
++-------------------------------------------------------+
+|  👤 Alex's Deep Dive: Taylor Swift                   |
+|                                                       |
+|  ---------------------------------------------------  |
+|  ✨ **Your Bestie Score with Alex: 92%** ✨           |
+|  (Based on your own curated profile, if logged in)    |
+|  ---------------------------------------------------  |
+|                                                       |
+|  Alex's Top Albums:                                   |
+|  1. Red (TV) (5★)                                     |
+|  2. 1989 (TV) (4.5★)                                  |
+|  ... (scroll to see more of Alex's curation)          |
+|                                                       |
+|  **Shared Interests:** |
+|  - You both rate "Red (TV)" 5 stars!                  |
+|  - Similar comments on "All Too Well (10 Min)"        |
+|  - Both love the "folklore" era.                      |
+|                                                       |
+|-------------------------------------------------------|
+|  [ Connect with Alex & Start an Exchange! ]           |
+|  [ Just Browse ]                                      |
++-------------------------------------------------------+
+```
+* **Description:** This view shows Alex's profile (name, obsession, curated items). Crucially, it highlights the "Bestie Score" between Friend B and Alex (if Friend B is logged in and has curated). A large `[ Connect with Alex & Start an Exchange! ]` button is the primary call to action.
+
+---
+
+#### **5. Receiving Incoming Connections (User A's View - Phase 2 with Monetization)**
+
+**Screen 5.1: User A Receives Connection Notification (Chat)**
+(Alex is using the app. Friend B connected via Alex's link.)
+```ascii
++-----------------------------------+-------------------+
+| < Back | Your Conversations       |  Sideboard      < |
++-----------------------------------+-------------------+
+|  (Previous Chat History)          |  (Collapsed)      |
+|                                   |                   |
+|  AI: Great news, Alex! You have a |                   |
+|      new Bestie Connection!       |                   |
+|                                   |                   |
+|      **Sarah (92% Match!)** just  |                   |
+|      tapped your link to connect! |                   |
+|                                   |                   |
+|  [ See My Connections ]           |                   |
+|  [ Learn More About Sarah ]       |                   |                   |
+|                                   |                   |
+|-----------------------------------|-------------------|
+| [ Type message... ] [🎤] [▶️]       |                   |
++-----------------------------------+-------------------+
+```
+* **Description:** AI notifies Alex in the chat about a new incoming connection, highlighting the name and Bestie Score. Clear action buttons are provided.
+
+**Screen 5.2: Incoming Connections (Sideboard - Free User)**
+(User A (Free) taps "See My Connections")
+```ascii
++-----------------------------------+-------------------+
+| < Back | Your Conversations       |  Sideboard      > |
++-----------------------------------+-------------------+
+|  AI: Here are your current        | +-----------------+ |
+|      connections, Alex!           | | Incoming Besties  | |
+|                                   | +-----------------+ |
+|      Meet your Top Bestie:        | | ✨ YOUR TOP BESTIE ✨ | |
+|                                   | | 👤 Sarah 🎸       | |
+|                                   | |   **92% Match!** | |
+|                                   | |   Shared: 3 albums| |
+|                                   | |   & "Style"       | |
+|                                   | |                   | |
+|                                   | | [ View Detailed ] | |
+|                                   | +-----------------+ |
+|                                   | |                   | |
+|      See who else connected?      | | 🔒 UNLOCK ALL BESTIES 🔒  | |
+|                                   | |                   | |
+|      Upgrade to view detailed     | |   You have 2 more  | |
+|      matches for all your         | |   connections!     | |
+|      connections!                 | |                   | |
+|                                   | |   - Mark (88%)    | |
+|                                   | |   - Emily (85%)   | |
+|                                   | |                   | |
+|                                   | | [ Upgrade to Premium! ] | |
+|                                   | +-----------------+ |
+|-----------------------------------|-------------------|
+| [ Type message... ] [🎤] [▶️]       |                   |
++-----------------------------------+-------------------+
+```
+* **Description:** The Sideboard displays the "Top Bestie" prominently with a `[ View Detailed ]` button. Below, a clear "Unlock All Besties" section shows names and scores of other incoming connections, but indicates detailed views are locked behind Premium, with multiple upgrade CTAs.
+
+**Screen 5.3: Incoming Connections (Sideboard - Premium User)**
+(User A (Premium) taps "See My Connections")
+```ascii
++-----------------------------------+-------------------+
+| < Back | Your Conversations       |  Sideboard      > |
++-----------------------------------+-------------------+
+|  AI: Here are your current        | +-----------------+ |
+|      connections, Alex!           | | Incoming Besties  | |
+|                                   | +-----------------+ |
+|      You have 3 connections:      | | 👤 Sarah 🎸       | |
+|                                   | |   **92% Match!** | |
+|                                   | |   Shared: 3 albums| |
+|                                   | |   & "Style"       | |
+|                                   | |                   | |
+|                                   | | [ View Detailed ] | |
+|                                   | +-----------------+ |
+|                                   | | 👩‍🦰 Mark ✨       | |
+|                                   | |   **88% Match!** | |
+|                                   | |   Shared: Opinion | |
+|                                   | |   on "folklore"   | |
+|                                   | |                   | |
+|                                   | | [ View Detailed ] | |
+|                                   | +-----------------+ |
+|                                   | | 👨‍🎤 Emily 🎶       | |
+|                                   | |   **85% Match!** | |
+|                                   | |   Shared: Love for| |
+|                                   | |   "All Too Well"  | |
+|                                   | |                   | |
+|                                   | | [ View Detailed ] | |
+|                                   | +-----------------+ |
+|                                   | |  [ SWIPE UP ]     | |
+|-----------------------------------|-------------------|
+| [ Type message... ] [🎤] [▶️]       |                   |
++-----------------------------------+-------------------+
+```
+* **Description:** For Premium users, the Sideboard displays all incoming Bestie connections. Each card includes a "Detailed View" button, and the list is vertically scrollable.
+
+**Screen 5.4: Detailed Bestie View (Sideboard)**
+(User (Free or Premium) taps "View Detailed" on a Bestie card)
+```ascii
++-----------------------------------+-------------------+
+| < Back | Your Conversations       |  Sideboard      > |
++-----------------------------------+-------------------+
+|  AI: Here's a deeper look at your | +-----------------+ |
+|      connection with Sarah.       | |   Detailed Match  | |
+|                                   | |   w/ Sarah (92%)  | |
+|                                   | +-----------------+ |
+|                                   | | ✨ SHARED ITEMS ✨ | |
+|                                   | | ----------------- | |
+|                                   | | Album: Red (TV)   | |
+|                                   | |  - Your Rating: 5★| |
+|                                   | |  - Sarah's Rtg: 5★| |
+|                                   | |  - Your Comment:  | |
+|                                   | |    "Absolutely..."| |
+|                                   | |  - Sarah's Cmnt:  | |
+|                                   | |    "Masterpiece!" | |
+|                                   | |                 | |
+|                                   | | Song: Style       | |
+|                                   | |  - Your Rating: 4★| |
+|                                   | |  - Sarah's Rtg: 4★| |
+|                                   | |  - Your Comment:  | |
+|                                   | |    "Iconic!"      | |
+|                                   | |  ... (scroll)   | |
+|                                   | +-----------------+ |
+|                                   | |  [ SWIPE UP ]     | |
+|-----------------------------------|-------------------|
+| [ Type message... ] [🎤] [▶️]       |                   |
++-----------------------------------+-------------------+
+```
+* **Description:** This screen shows the granular details of the match within the Sideboard: a side-by-side comparison of ratings, comments, and specific items for each shared piece of curation. This view is highly scrollable.
+
+---
+
+#### **6. Collapsed Exchange Unit (Example)**
+
+**Screen 6.1: Collapsed Session in Chat History**
+(After a multi-step interaction like Bestie Discovery & Connection)
+```ascii
++-----------------------------------+-------------------+
+| < Back | Your Conversations       |  Sideboard      < |
++-----------------------------------+-------------------+
+|  (Previous AI Chat)               |  (Collapsed)      |
+|  User: My #1 album is Folklore.   |                   |
+|  AI: Excellent choice!            |                   |
+|                                   |                   |
+|  > (Collapsed Exchange - #3)      |                   |
+|    Action: Bestie Link Shared & 3 New Connections (1 Detailed) |
+|    (Summary: Sarah 92% (Detailed), Mark 88%, Emily 85%)     |
+|    [ + ] Expand Exchange          |                   |
+|                                   |                   |
+|  AI: Your next step might be to...|                   |
+|                                   |                   |
+|-----------------------------------|-------------------|
+| [ Type message... ] [🎤] [▶️]       |                   |
++-----------------------------------+-------------------+
+```
+* **Description:** A `Collapsible Exchange Unit` in the main chat area summarizes a complex multi-step interaction. It provides a quick overview (e.g., number of connections, which ones are detailed for free users) and can be expanded (`[ + ] Expand Exchange`) to reveal the full conversational flow and associated Sideboard content from that session.
+
+---
+
+This comprehensive set of wireframes should provide a clear visual roadmap for the mobile PWA's user experience, from the initial AI greeting and integrated registration, through the link-driven curation and connection process, and the differentiated view of Bestie Scores based on monetization.
+
+
+To guide external designers for "Music Besties," here's a brief overview of the philosophical design principles and core aspects of the app. Our aim is to create an experience that feels intelligent, intimate, and indispensable, rather than just another utility.
+
+---
+
+### **Philosophical Design Principles for "Music Besties"**
+
+1.  **The AI as a Personal Concierge, Not Just a Tool:**
+    * **Principle:** The AI isn't merely a chatbot; it's a proactive, knowledgeable, and empathetic guide. It leads the conversation, anticipates needs, and surfaces relevant information.
+    * **Aspects:**
+        * **Proactive Engagement:** The AI initiates interactions (e.g., "Ready to find Besties?").
+        * **Contextual Intelligence:** Responses and suggestions are tailored to the user's specific curation and ongoing conversation.
+        * **Helpful, Not Pushy:** Guides gently, offers choices, and respects user pace.
+
+2.  **Conversational Intuition as Primary Interaction:**
+    * **Principle:** Users should feel like they're having a natural, flowing conversation, not filling out forms or navigating complex menus.
+    * **Aspects:**
+        * **Natural Language First:** Encourage users to express themselves in plain language.
+        * **In-Chat UI:** All structured inputs (forms, selections) and dynamic content are presented directly within the conversational flow via Contextual Input Modules or the Sideboard.
+        * **Seamless Transitions:** The shift between chat, input modules, and Sideboard displays should feel smooth and logical.
+
+3.  **Blended Experience: Dialogue Meets Dynamic Visuals:**
+    * **Principle:** The app is a hybrid of chat and rich, interactive visual components, with the **Sideboard** serving as the dynamic canvas for deep insights and curated content.
+    * **Aspects:**
+        * **Sideboard as the "Showcase":** It's where the AI "shows" the user their curated profiles, matches, and detailed comparisons. It's always a swipe away.
+        * **Chat as the "Control Center":** The chat drives the narrative, asks questions, and orchestrates what appears in the Sideboard.
+        * **Visual Reinforcement:** Visuals in the Sideboard should directly complement and enhance the conversational insights.
+
+4.  **Depth Over Breadth (Focused Obsession & Meaningful Connection):**
+    * **Principle:** Rather than superficial connections across many interests, we enable deep dives into one passion and foster highly compatible "Bestie" connections.
+    * **Aspects:**
+        * **Singular Focus (Curation):** The initial deep curation on one obsession leads to more precise matching.
+        * **Quality Connections:** The "Bestie Score" and detailed shared insights emphasize the depth and relevance of connections.
+        * **Actionable Insights:** When a connection is made, the app provides concrete, conversation-starting commonalities.
+
+5.  **Empowered User Control & Transparency:**
+    * **Principle:** While AI guides, the user always maintains control, understanding what the AI is doing and why.
+    * **Aspects:**
+        * **Clear Choices:** Provide explicit buttons and options when the AI needs a decision.
+        * **"Solemn Process" for Key Inputs:** Contextual Input Modules pause the chat flow to ensure focused, deliberate user input for critical data (like registration or deep curation).
+        * **Collapsible History:** Users can always review past interactions and their outcomes, ensuring no "black box" feeling.
+
+6.  **Seamless Mobile-First PWA Experience:**
+    * **Principle:** The app must feel fluid, responsive, and intuitive on mobile devices, leveraging native gestures for efficiency and delight.
+    * **Aspects:**
+        * **Gesture Optimization:** Swiping for Sideboard, tapping for actions.
+        * **No Desktop Compromises:** Design purely for the mobile canvas.
+        * **PWA Benefits:** Fast loading, offline capabilities, "add to home screen" native feel.
+
+By adhering to these principles, "Music Besties" aims to deliver a uniquely intelligent, engaging, and genuinely helpful experience for discovering and connecting with like-minded music and TV show enthusiasts.

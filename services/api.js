@@ -14,7 +14,7 @@ export default {
     const apiBaseUrl = config.public.apiBaseUrl;
     
     try {
-      const response = await fetch(`${apiBaseUrl}/api/chat`, {
+      const response = await fetch(`${apiBaseUrl}/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

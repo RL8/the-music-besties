@@ -1,0 +1,205 @@
+### **Phase 1: Core Curation & Personalization (Single Obsession) - Detailed Implementation Plan**
+
+**Objective:** To enable users to select a single "obsession" (e.g., a musician/band or TV show) and then meticulously curate their preferences for it, utilizing the AI-driven conversational interface and dynamic UI modules. This phase also establishes robust user authentication and data persistence.
+
+**Key Features to Deliver:**
+
+* **User Registration & Login:** Secure user authentication powered by Supabase.
+* **Onboarding Flow:** AI-guided process for the user to declare their primary "obsession" (single musician/band or TV show).
+* **Detailed Curation Process:** AI guides the user through steps to input:
+    * Top 3 albums/songs (or seasons/episodes/cast for TV shows).
+    * Rating for each item (e.g., 1-5 stars).
+    * Accompanying personal comments/reviews.
+    * Weighted rank percentage (e.g., for their top 3).
+    * Additional qualitative opinions via specific AI-prompted questions (e.g., "What does this artist mean to you?").
+* **Robust Contextual Input Modules:** Implementation of various dynamic input types (sliders, radio buttons, multi-line text areas) orchestrated by the AI.
+* **"My Curation" Display:** A visually appealing and comprehensive display of the user's full, detailed curation within the Sideboard.
+* **Public Sharing:** Functionality to generate a unique, public shareable URL for a user's curated profile (read-only for non-logged-in users).
+* **Enhanced Collapsible Exchange Units:** Ensure all new AI-driven interactions (obsession selection, curation steps) are correctly grouped and presented in the chat history.
+
+---
+
+#### **Tasks Breakdown - Phase 1:**
+
+**A. Supabase Database & Authentication (Estimated Time: 3-4 Days)**
+
+1.  **Schema Design & Implementation:**
+    * **`profiles` table:** Extend `auth.users` with a `profiles` table to store user-specific metadata (e.g., `user_id` (FK to `auth.users`), `username`, `avatar_url`, `primary_obsession_type` (e.g., 'music', 'tv_show'), `primary_obsession_id` (FK to `artists` or `tv_shows`)).
+    * **`artists` table:** `id`, `name`, `genre`, `image_url`, `spotify_id`, `musicbrainz_id`, `is_verified` etc.
+    * **`albums` table:** `id`, `artist_id` (FK), `title`, `release_year`, `image_url`, `spotify_id` etc.
+    * **`songs` table:** `id`, `album_id` (FK), `title`, `duration`, `spotify_id` etc.
+    * **`tv_shows` table:** `id`, `title`, `genre`, `image_url`, `imdb_id` etc.
+    * **`seasons` table:** `id`, `tv_show_id` (FK), `season_number`, `episode_count` etc.
+    * **`episodes` table:** `id`, `season_id` (FK), `title`, `episode_number` etc.
+    * **`user_curations` table:** `id`, `user_id` (FK), `curated_item_id` (FK to `albums`/`songs`/`seasons`/`episodes`), `item_type` (`album`, `song`, `season`, `episode`), `rating` (1-5), `comment`, `weighted_rank_percentage`, `created_at`, `updated_at`.
+    * **Row-Level Security (RLS):** Implement RLS policies for all new tables to ensure users can only read/write their own data, and public profiles are read-only for others.
+2.  **Supabase Auth Integration:**
+    * Utilize Supabase's built-in authentication for user registration, login, and session management.
+
+**B. Backend Development (FastAPI & CrewAI) (Estimated Time: 5-7 Days)**
+
+1.  **FastAPI Endpoints:**
+    * **`POST /auth/signup` / `POST /auth/login`:** Proxy to Supabase Auth or handle custom JWT logic if needed, integrating with `supabase-py`.
+    * **`GET /api/user/profile`:** Retrieve user profile and their curated data.
+    * **`POST /api/user/obsession`:** Endpoint for AI to submit the user's chosen primary obsession ID.
+    * **`POST /api/curation/start`:** Initiates the curation process for a selected obsession.
+    * **`POST /api/curation/submit-item`:** Receives structured data for a curated item (album/song/season/episode) from frontend input modules.
+    * **`GET /api/curation/public/{user_id}`:** Public endpoint to retrieve a read-only view of a user's curated profile data.
+    * **`POST /api/chat` (Enhanced):** Continue to be the main chat endpoint. It will now handle more complex AI orchestration for curation flows.
+    * **`POST /api/ui/component-trigger` (Enhanced):** Will now handle a wider variety of UI component payloads (sliders, multi-selects, etc.) as orchestrated by CrewAI.
+2.  **CrewAI Agents & Tools:**
+    * **`AuthAgent` (New):** Manages user authentication flow, directs user to signup/login forms.
+    * **`ObsessionSelectionAgent` (New):**
+        * **Role:** Guides user in selecting their primary musician/band or TV show.
+        * **Goal:** Identify and confirm the user's single obsession.
+        * **Tasks:**
+            * Suggest artists/shows based on initial user input.
+            * Confirm user choice using a Contextual Input Module (e.g., dropdown, search bar).
+        * **Tools:** `MusicSearchTool` (calls Spotify/MusicBrainz API), `TVShowSearchTool` (calls TMDB/IMDB API), `ContextualInputModuleTool` (for search/select).
+    * **`CurationAgent` (New):**
+        * **Role:** Guides the user through the detailed curation process for their selected obsession.
+        * **Goal:** Collect comprehensive, structured preference data (top items, ratings, comments, ranks).
+        * **Tasks:**
+            * Identify top N items (albums/songs) for the chosen obsession.
+            * Prompt user for ratings, comments, weighted ranks using various Contextual Input Modules.
+            * Process natural language comments for sentiment and themes (`SentimentAnalysisTool`).
+        * **Tools:** `ContextualInputModuleTool` (for various input types), `SupabaseWriteTool` (to store `user_curations`), `SentimentAnalysisTool` (internal Python function or external API).
+    * **`DisplayAgent` (Enhanced):**
+        * **Role:** Formats and orchestrates the display of user data in the Sideboard.
+        * **Goal:** Present the user's complete curated profile visually in the Sideboard.
+        * **Tasks:** Format data from `user_curations` into a presentable JSON structure for the Sideboard.
+        * **Tools:** `SideboardDisplayTool`.
+3.  **Third-Party API Integrations:**
+    * **Spotify Web API / MusicBrainz API:** For music metadata (artist, album, track details). Implement a caching layer with Redis to avoid hitting rate limits.
+    * **The Movie Database (TMDB) API / IMDb API:** For TV show metadata (show, season, episode details). Also with Redis caching.
+
+**C. Frontend Development (Vue/Nuxt.js PWA) (Estimated Time: 5-7 Days)**
+
+1.  **User Authentication UI:**
+    * Create login and registration forms using Supabase JS client for authentication.
+    * Implement user session management (Supabase provides this).
+    * Private routes for logged-in users only.
+2.  **Obsession Selection UI:**
+    * Integrate a search input field within a Contextual Input Module to allow users to find and select their primary musician/band or TV show. Display search results dynamically.
+3.  **Dynamic Curation Input Modules:**
+    * Develop reusable Vue components for various input types orchestrated by the AI:
+        * Text inputs (for comments, search).
+        * Star rating components.
+        * Slider components (for weighted rank).
+        * Radio buttons/checkboxes (for multiple-choice questions).
+        * Each component needs to send its data to the appropriate FastAPI endpoint (e.g., `POST /api/curation/submit-item`).
+4.  **"My Curation" Sideboard Display:**
+    * Develop a dedicated Vue component to render the user's full curated obsession data in a structured and visually appealing way within the Sideboard. This should update dynamically as the user curates.
+5.  **Public Profile Page:**
+    * Create a Nuxt.js page (`pages/public/user/[id].vue`) that fetches data from `GET /api/curation/public/{user_id}` and renders it for public viewing. This page should *not* require authentication.
+6.  **Enhanced Collapsible Exchange Units:**
+    * Refine the existing Collapsible Exchange Unit component to group more complex AI-driven interactions (e.g., the entire obsession selection flow, or a multi-step curation process) into single, digestible units in the chat history. Include miniature views of any associated Contextual Input Modules or Sideboard displays.
+
+**D. Deployment & Testing (Estimated Time: 1 Day)**
+
+1.  **Deploy Backend to Railway:** Push changes to the connected Git repository.
+2.  **Deploy Frontend to Vercel:** Push changes to the connected Git repository.
+3.  **End-to-End Testing:**
+    * Test user registration and login flows.
+    * Verify the full AI-guided obsession selection and curation process works smoothly.
+    * Confirm all types of Contextual Input Modules render and submit data correctly.
+    * Check that "My Curation" display updates accurately in the Sideboard.
+    * Test public profile URL generation and access.
+    * Verify all interactions are correctly encapsulated in Collapsible Exchange Units.
+    * Perform performance testing, especially for API calls to external metadata services and Supabase.
+
+---
+
+### **Phase 2: Similarity Matching & Community Discovery - Detailed Implementation Plan**
+
+**Objective:** To enable users to find like-minded individuals based on their curated preferences, utilizing advanced AI for clever comparisons and presenting matches in the Sideboard.
+
+**Key Features to Deliver:**
+
+* **Similarity Calculation:** Implement robust logic to calculate similarity scores between users based on their in-depth curated preferences.
+* **"Discover Tribe" Display:** Present matched users in the Sideboard, showing their similarity scores and key shared interests (e.g., "shared love for specific albums/songs/themes").
+* **Basic Connect Functionality:** Allow users to express interest in a matched user (e.g., send a "Connect" request).
+* **AI-Generated Conversation Starters:** When matches are presented, the AI suggests context-aware conversation starters to facilitate interaction.
+* **Enhanced Collapsible Exchange Units:** Ensure all new interactions related to similarity search and discovery are encapsulated correctly in the chat history.
+
+---
+
+#### **Tasks Breakdown - Phase 2:**
+
+**A. Supabase Database & Data Processing (Estimated Time: 3-4 Days)**
+
+1.  **Schema Extensions:**
+    * **`user_similarity_scores` table:** `id`, `user_id_1` (FK), `user_id_2` (FK), `score` (e.g., 0-100), `last_calculated_at`, `key_shared_interests` (JSONB for list of shared items/themes).
+    * **`connection_requests` table:** `id`, `sender_user_id` (FK), `receiver_user_id` (FK), `status` (`pending`, `accepted`, `rejected`), `created_at`.
+2.  **Data for Similarity:**
+    * Ensure all data from Phase 1 (`user_curations`, `comment` sentiment/themes) is structured for easy querying for similarity.
+    * Consider creating materialized views or pre-computed aggregates in Supabase for faster similarity calculations if data volume is expected to grow.
+
+**B. Backend Development (FastAPI & CrewAI) (Estimated Time: 6-8 Days)**
+
+1.  **FastAPI Endpoints:**
+    * **`GET /api/discovery/matches`:** Triggers the AI to find and return potential matches for the current user.
+    * **`POST /api/connections/request`:** For a user to send a "Connect" request to another user.
+    * **`GET /api/connections/pending`:** Retrieve pending connection requests for the current user.
+    * **`POST /api/connections/respond`:** For a user to accept/reject a connection request.
+    * **`GET /api/user/{user_id}/shared_details`:** An internal endpoint for CrewAI to fetch detailed shared interests between two users for display.
+2.  **CrewAI Agents & Tools:**
+    * **`SimilarityMatcherAgent` (New - Core of this Phase):**
+        * **Role:** Analyzes user curation data to find optimal matches.
+        * **Goal:** Provide the most relevant "Bestie" matches based on deep taste analysis.
+        * **Tasks:**
+            * Retrieve current user's detailed curation data.
+            * Query database for other users' curation data.
+            * Calculate similarity scores based on:
+                * Overlap of exact curated items (albums, songs, etc.).
+                * Proximity of weighted ranks for shared items.
+                * Sentiment similarity of comments on shared items.
+                * Topical/thematic similarity derived from comments (requires some NLP, potentially `SpaCy` or simple LLM calls).
+            * Filter and rank potential matches.
+            * Store similarity scores in `user_similarity_scores`.
+        * **Tools:** `SupabaseReadTool` (to fetch curation data), `SupabaseWriteTool` (to store scores), `NLPAnalysisTool` (internal, for sentiment/themes), `SimilarityCalculationTool` (internal, for complex scoring logic).
+    * **`ConnectionManagerAgent` (New):**
+        * **Role:** Facilitates user connections and initial conversation prompts.
+        * **Goal:** Enable users to connect and break the ice.
+        * **Tasks:**
+            * Receive connection requests and update status.
+            * Generate context-aware conversation starters based on shared interests provided by `SimilarityMatcherAgent`.
+        * **Tools:** `SupabaseWriteTool` (for `connection_requests`), `LLMGenerationTool` (for conversation starters).
+    * **`DisplayAgent` (Enhanced):**
+        * **Role:** Formats and orchestrates the display of matched users and shared interests.
+        * **Goal:** Present compelling match cards in the Sideboard.
+        * **Tasks:** Receive match data from `SimilarityMatcherAgent` and format it for the "Discover Tribe" display.
+        * **Tools:** `SideboardDisplayTool`.
+3.  **Analytics Integration:**
+    * **Google Analytics 4 (GA4) / Mixpanel:** Implement basic tracking for user engagement with discovery features (e.g., `match_viewed`, `connect_request_sent`).
+
+**C. Frontend Development (Vue/Nuxt.js PWA) (Estimated Time: 5-7 Days)**
+
+1.  **"Discover Tribe" Sideboard Display:**
+    * Develop a sophisticated Vue component for the Sideboard that displays a list of matched users.
+    * Each "match card" should show:
+        * User's avatar and username.
+        * Their Bestie Score.
+        * A concise list of *key shared interests* (e.g., "Loves the same 3 albums," "Similar comments on Folklore").
+        * A "Connect" button.
+        * AI-generated conversation starters (clickable to auto-populate chat input).
+2.  **Connection Request Management UI:**
+    * Implement UI to show pending connection requests (e.g., a "Notifications" section or a specific Sideboard display).
+    * Buttons to accept or reject requests.
+3.  **Loading States & Feedback:**
+    * Implement clear loading states and error messages for similarity calculations and connection requests (e.g., "Finding your besties...").
+4.  **Enhanced Collapsible Exchange Units:**
+    * Ensure that the entire "Discover Tribe" interaction (AI asking to find matches, displaying results, suggesting starters) is encapsulated in a comprehensive collapsible unit in the chat history.
+
+**D. Deployment & Testing (Estimated Time: 1 Day)**
+
+1.  **Deploy Backend to Railway:** Push changes.
+2.  **Deploy Frontend to Vercel:** Push changes.
+3.  **End-to-End Testing:**
+    * Test similarity calculation with various user data sets (manual creation for now).
+    * Verify match cards display correctly in the Sideboard with accurate scores and shared interests.
+    * Test sending and receiving connection requests.
+    * Verify AI-generated conversation starters are relevant and functional.
+    * Ensure all new interactions are properly grouped in Collapsible Exchange Units.
+    * Perform performance testing, especially for similarity calculations (this might be CPU-intensive).
+    * Review GA4/Mixpanel dashboards to confirm event tracking is working.
