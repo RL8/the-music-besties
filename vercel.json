@@ -19,8 +19,6 @@
     }
   ],
   "env": {
-    "NUXT_PUBLIC_SUPABASE_URL": "@supabase_url",
-    "NUXT_PUBLIC_SUPABASE_KEY": "@supabase_key",
     "NUXT_PUBLIC_API_BASE_URL": "@api_base_url",
     "OPENAI_API_KEY": "@openai_api_key"
   },
