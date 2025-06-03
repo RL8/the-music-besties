@@ -31,6 +31,7 @@
 
 <script setup>
 import { ref, onMounted, watch, nextTick } from 'vue';
+import apiService from '~/services/api';
 
 const props = defineProps({
   inputDisabled: {
@@ -47,8 +48,30 @@ const isTyping = ref(false);
 const messagesContainer = ref(null);
 
 // Add initial AI greeting when component mounts
-onMounted(() => {
-  addMessage('Welcome to Music Besties! I\'m your AI concierge. How can I help you today?', 'ai');
+onMounted(async () => {
+  try {
+    // Show loading indicator
+    isTyping.value = true;
+    
+    // Initialize chat with the backend
+    const response = await apiService.initializeChat();
+    
+    // Hide loading indicator
+    isTyping.value = false;
+    
+    // Add the AI response to the chat
+    if (response && response.message) {
+      addMessage(response.message, 'ai');
+    } else {
+      // Fallback message if API call fails
+      addMessage('Welcome to Music Besties! I\'m your AI concierge. How can I help you today?', 'ai');
+    }
+  } catch (error) {
+    console.error('Error initializing chat:', error);
+    isTyping.value = false;
+    // Fallback message if API call fails
+    addMessage('Welcome to Music Besties! I\'m your AI concierge. How can I help you today?', 'ai');
+  }
 });
 
 // Watch for changes in messages and scroll to bottom

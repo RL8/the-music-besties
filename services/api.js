@@ -5,6 +5,37 @@ import { useRuntimeConfig } from 'nuxt/app';
  */
 export default {
   /**
+   * Initialize a new chat conversation
+   * @returns {Promise} - Promise resolving to the initial chat response
+   */
+  async initializeChat() {
+    const config = useRuntimeConfig();
+    const apiBaseUrl = config.public.apiBaseUrl;
+    
+    // Get authentication token from local storage or Supabase session
+    const token = localStorage.getItem('sb-access-token') || '';
+    
+    try {
+      const response = await fetch(`${apiBaseUrl}/chat/init`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
+      }
+      
+      return await response.json();
+    } catch (error) {
+      console.error('Error initializing chat:', error);
+      throw error;
+    }
+  },
+  
+  /**
    * Send a chat message to the API
    * @param {string} message - The user's message
    * @returns {Promise} - Promise resolving to the API response
@@ -13,11 +44,15 @@ export default {
     const config = useRuntimeConfig();
     const apiBaseUrl = config.public.apiBaseUrl;
     
+    // Get authentication token from local storage or Supabase session
+    const token = localStorage.getItem('sb-access-token') || '';
+    
     try {
       const response = await fetch(`${apiBaseUrl}/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({ message }),
       });
