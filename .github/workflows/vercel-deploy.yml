@@ -6,6 +6,12 @@ on:
       - master
   workflow_dispatch:
 
+permissions:
+  contents: read
+  deployments: write
+  pull-requests: write
+  issues: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -21,3 +27,4 @@ jobs:
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           working-directory: ./
           vercel-args: '--prod'
+          github-comment: false # Disable GitHub comments to avoid permission issues

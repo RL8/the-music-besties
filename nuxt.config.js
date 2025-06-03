@@ -35,8 +35,6 @@ export default defineNuxtConfig({
     
     // Public keys (exposed to the client)
     public: {
-      supabaseUrl: process.env.SUPABASE_URL,
-      supabaseKey: process.env.SUPABASE_KEY,
       apiBaseUrl: process.env.API_BASE_URL || 'http://localhost:8000'
     }
   },
