@@ -31,7 +31,10 @@ export default defineNuxtConfig({
         { rel: 'apple-touch-icon', href: '/icons/apple-touch-icon.png' },
         { rel: 'manifest', href: '/manifest.json' }
       ]
-    }
+    },
+    // Set the base URL for GitHub Pages deployment
+    // This will be the repository name for GitHub Pages
+    baseURL: process.env.NODE_ENV === 'production' ? '/the-music-besties/' : '/',
   },
 
   runtimeConfig: {
