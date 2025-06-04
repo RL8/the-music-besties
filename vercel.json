@@ -19,8 +19,8 @@
     }
   ],
   "env": {
-    "NUXT_PUBLIC_API_BASE_URL": "@api_base_url",
-    "OPENAI_API_KEY": "@openai_api_key"
+    "NUXT_PUBLIC_API_BASE_URL": "https://mb-api-service-production.up.railway.app/api",
+    "OPENAI_API_KEY": "${OPENAI_API_KEY}"
   },
   "github": {
     "silent": true,
