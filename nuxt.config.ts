@@ -1,5 +1,10 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  // Configure Nuxt for GitHub Pages deployment
+  ssr: false,
+  nitro: {
+    preset: 'github-pages'
+  },
   compatibilityDate: '2025-05-15',
   devtools: { enabled: true },
 
